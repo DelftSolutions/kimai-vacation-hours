@@ -5,7 +5,7 @@
 First clone it to your Kimai installation `plugins` directory:
 ```
 cd /kimai/var/plugins/
-git clone https://github.com/delftsolutions/kimai-vacation-hours.git VacationHours
+git clone https://github.com/delftsolutions/kimai-vacation-hours.git VacationHoursBundle
 ```
 
 And then rebuild the cache: 
