@@ -1,0 +1,29 @@
+{
+    "name": "delftsolutions/kimai-vacation-hours",
+    "description": "Track vacation hours for employees",
+    "homepage": "https://github.com/DelftSolutions/kimai-vacation-hours",
+    "type": "kimai-plugin",
+    "version": "0.1",
+    "require": {
+        "kimai/kimai2-composer": "*"
+    },
+    "keywords": [
+        "kimai",
+        "kimai-plugin"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Max Maton",
+            "email": "max@delftsolutions.nl",
+            "homepage": "https://delftsolutions.com"
+        }
+    ],
+    "extra": {
+        "kimai": {
+            "require": "1.8",
+            "version": "0.1",
+            "name": "VacationHours"
+        }
+    }
+}
