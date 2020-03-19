@@ -62,7 +62,7 @@ class WeekProgressWidget extends SimpleWidget
 
 	$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
-	$work_left = $expected_work_hours - $worked_hours;
+	$work_left = max(0, $expected_work_hours - $worked_hours);
 
 	return (int)($work_left * 60 * 60);
     }
