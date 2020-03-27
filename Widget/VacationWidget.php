@@ -57,7 +57,7 @@ class VacationWidget extends SimpleWidget
 
 	// Not accounting for leap years
 	$year_length = 365 * 24 * 60 * 60;
-	$vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-fte-vacation-days') / $year_length;
+	$vacation_hours_per_second = 8 * $user->getPreferenceValue('yearly-fte-vacation-days') / $year_length;
 
 	$earned_hours = $fte_ratio * $seconds_elapsed * $vacation_hours_per_second;
 
