@@ -51,7 +51,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
             (new UserPreference())
                 ->setName('yearly-fte-vacation-days')
                 ->setValue(35)
-                ->setType(IntegerType::class)
+                ->setType(NumberType::class)
         );
 	$event->addPreference(
             (new UserPreference())
