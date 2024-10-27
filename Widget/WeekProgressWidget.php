@@ -3,72 +3,97 @@
 namespace KimaiPlugin\VacationHoursBundle\Widget;
 
 use App\Repository\TimesheetRepository;
+use App\Widget\Type\AbstractWidget;
 use DateTime;
 use DateInterval;
-use App\Security\CurrentUser;
+// use App\Security\CurrentUser;
+use App\Entity\User;
 use App\Widget\Type\SimpleWidget;
+use App\Widget\WidgetInterface;
 
-class WeekProgressWidget extends SimpleWidget
+final class WeekProgressWidget extends AbstractWidget
 {
-    protected $repository;
-
-    public function __construct(TimesheetRepository $repository, CurrentUser $user)
+	
+    public function __construct(private TimesheetRepository $repository)
     {
-	$this->repository = $repository;
-
-	$this->setId('WeekProgressWidget');
-	$this->setTitle('Week hours left');
-	$this->setOptions([
-        	'user' => $user->getUser(),
-        	'id' => '',
-		'icon' => 'time',
-		'dataType' => 'duration',
-        ]);
+		// $user = $this->getUser();
+		// $this->repository = $repository;
+		
+		// $this->setId('WeekProgressWidget');
+		// $this->setTitle('Week hours left');
+		// $this->getOptions([
+		// 	'user' => $user->getUser(),
+        // 	'id' => '',
+			// 'icon' => 'time',
+		// 	'dataType' => 'duration',
+        // ]);
     }
 
+	public function getWidth(): int
+    {
+        return WidgetInterface::WIDTH_FULL;
+    }
+
+    public function getHeight(): int
+    {
+        return WidgetInterface::HEIGHT_MAXIMUM;
+    }
+	
     public function getOptions(array $options = []): array
     {
         $options = parent::getOptions($options);
 
+		$options['icon'] = 'time';
         if (empty($options['id'])) {
             $options['id'] = 'WeekProgressWidget';
+
         }
 
         return $options;
     }
 
-    public function getData(array $options = [])
+    public function getData(array $options = []): mixed
     {
-	$options = $this->getOptions($options);
-	$user = $options['user'];
-
-	$accounting_start = strtotime('last monday');
-	if ($accounting_start === false) return;
-	$startDate = new DateTime();
-	$startDate->setTimestamp($accounting_start);
-
-	$accounting_end = strtotime('next monday');
-	$seconds_elapsed = $accounting_end - $accounting_start;
-	if ($seconds_elapsed < 0) return;
-	$endDate = new DateTime();
-	$endDate->setTimestamp($accounting_end);
-
-	$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
-
-	$week_length = 7 * 24 * 60 * 60;
-	$elapsed_weeks = $seconds_elapsed / $week_length;
-
-	$expected_work_hours = $elapsed_weeks * $fte_ratio * 40;
-
-	$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
-
-	$work_left = max(0, $expected_work_hours - $worked_hours);
-
-	return (int)($work_left * 60 * 60);
+		
+		$options = $this->getOptions($options);
+		// $user = $options['user'];
+		
+		$accounting_start = strtotime('last monday');
+		if ($accounting_start === false) return null;
+		$startDate = new DateTime();
+		$startDate->setTimestamp($accounting_start);
+		
+		$accounting_end = strtotime('next monday');
+		$seconds_elapsed = $accounting_end - $accounting_start;
+		if ($seconds_elapsed < 0) return null;
+		$endDate = new DateTime();
+		$endDate->setTimestamp($accounting_end);
+		$user = $this->getUser();
+		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
+		
+		$week_length = 7 * 24 * 60 * 60;
+		$elapsed_weeks = $seconds_elapsed / $week_length;
+		
+		$expected_work_hours = $elapsed_weeks * $fte_ratio * 40;
+		
+		$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
+		
+		$work_left = max(0, $expected_work_hours - $worked_hours);
+		
+		return (int)($work_left * 60 * 60);
     }
-
+	public function getId(): string
+    {
+		return 'WeekProgressWidget';
+    }
+	
+    public function getTitle(): string
+    {
+		return 'Week hours left';
+    }
+	
     public function getTemplateName(): string
     {
-	return 'widget/widget-more.html.twig';
+		return 'widget/widget-more.html.twig';
     }
 }
