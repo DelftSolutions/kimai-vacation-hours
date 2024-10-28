@@ -55,8 +55,9 @@ final class VacationWidget extends AbstractWidget
 		$options = $this->getOptions($options);
 		// $user = $options['user'];
 		$user = $this->getUser();
-	$accounting_start = strtotime($user->getPreferenceValue('target-weekly-start'));
-	if ($accounting_start === false) return null;
+		$accounting_start = strtotime($user->getPreferenceValue('target-weekly-start'));
+		if ($accounting_start === false)
+			return null;
 		$startDate = new DateTime();
 		$startDate->setTimestamp($accounting_start);
 
@@ -87,20 +88,22 @@ final class VacationWidget extends AbstractWidget
 
 		$work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
 		$vacation_hours_left = max(0, -$work_left);
-		print_r([
-			'fte_ratio' => $fte_ratio,
-			'leftover_hours' => $leftover_hours,
-			'vacation_hours_per_second' => $vacation_hours_per_second,
-			'earned_hours' => $earned_hours,
-			'expected_work_hours'=>$expected_work_hours,
-			'worked_hours'=>$worked_hours,
-			'work_left' => $work_left,
-			'vacation_hours_left' => (int) ($vacation_hours_left * 60 * 60),
-		]);
+		// print_r([
+		// 	'fte_ratio' => $fte_ratio,
+		// 	'leftover_hours' => $leftover_hours,
+		// 	'vacation_hours_per_second' => $vacation_hours_per_second,
+		// 	'earned_hours' => $earned_hours,
+		// 	'expected_work_hours' => $expected_work_hours,
+		// 	'worked_hours' => $worked_hours,
+		// 	'work_left' => $work_left,
+		// 	'vacation_hours_left' => (int) ($vacation_hours_left),
+		// ]);
 
+		$hours = floor($vacation_hours_left);
+		$minutes = ($vacation_hours_left - $hours) * 60;
+		$formatted_vacation_hours = sprintf("%02d:%02d h", $hours, $minutes);
 
-		return (int) ($vacation_hours_left * 60 * 60);
-
+		return $formatted_vacation_hours;
 	}
 	public function getId(): string
 	{
@@ -109,8 +112,12 @@ final class VacationWidget extends AbstractWidget
 
 	public function getTitle(): string
 	{
-		return 'vacation hours left';
+		return 'Vacation hours left';
 	}
+	public function getOrder(): int
+    {
+        return 20;
+    }
 
 	public function getTemplateName(): string
 	{
