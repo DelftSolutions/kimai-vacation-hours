@@ -31,19 +31,19 @@ final class WeekProgressWidget extends AbstractWidget
 
 	public function getWidth(): int
 	{
-		return WidgetInterface::WIDTH_FULL;
+		return WidgetInterface::WIDTH_SMALL;
 	}
 
 	public function getHeight(): int
 	{
-		return WidgetInterface::HEIGHT_MAXIMUM;
+		return WidgetInterface::HEIGHT_SMALL;
 	}
 
 	public function getOptions(array $options = []): array
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'time';
+		$options['icon'] = 'timesheet';
 		if (empty($options['id'])) {
 			$options['id'] = 'WeekProgressWidget';
 

@@ -29,19 +29,19 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 	public function getWidth(): int
 	{
-		return WidgetInterface::WIDTH_FULL;
+		return WidgetInterface::WIDTH_SMALL;
 	}
 
 	public function getHeight(): int
 	{
-		return WidgetInterface::HEIGHT_MAXIMUM;
+		return WidgetInterface::HEIGHT_FULL/2;
 	}
 
 	public function getOptions(array $options = []): array
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'time';
+		$options['icon'] = 'success';
 		if (empty($options['id'])) {
 			$options['id'] = 'SlidingMonthProgressWidget';
 		}
