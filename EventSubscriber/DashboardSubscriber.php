@@ -7,7 +7,7 @@ use App\Event\DashboardEvent;
 use KimaiPlugin\VacationHoursBundle\Widget\DemoWidget;
 use KimaiPlugin\VacationHoursBundle\Widget\WeekProgressWidget;
 use KimaiPlugin\VacationHoursBundle\Widget\VacationWidget;
-// use KimaiPlugin\VacationHoursBundle\Widget\SlidingMonthProgressWidget;
+use KimaiPlugin\VacationHoursBundle\Widget\SlidingMonthProgressWidget;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -39,9 +39,11 @@ class DashboardSubscriber implements EventSubscriberInterface
 		// $section->setTitle('Vacation Hours');
 		// $section->setOrder(20);
 
+		$event->addWidget("SlidingMonthProgressWidget");
 		$event->addWidget("VacationWidget");
 		$event->addWidget("WeekProgressWidget");
 		$event->addWidget("DemoWidget");
+
 		// $event->addWidget("DemoWidget");
 		// $event->addWidget($this->weekWidget);
 		// $event->addWidget($this->slidingWidget);
