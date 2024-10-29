@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  kimai:
+    image: kimai/kimai2:apache
+    container_name: kimai
+    environment:
+      - APP_ENV=prod
+      - DATABASE_URL=mysql://kimai:kimai@db/kimai
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./:/opt/kimai/var/plugins/VacationHoursBundle
+      # - ./to-copy-root:/opt/kimai
+    working_dir: /opt/kimai 
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.5.8
+    container_name: kimai_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=kimai
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=kimai
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+volumes:
+  db_data:
+
+# Get down and up dockerclear;docker-compose down;docker-compose up
+# Then go to the container: docker exec -it kimai bash
+# Then reload kimai after every changes: bin/console kimai:reload
+
+# Create a new username as an admin /opt/kimai/bin/console kimai:user:create admin admin@example.com ROLE_SUPER_ADMIN
+# Remove containers with their id's  docker rm  $(docker ps -aq)
+
+# Admin user:username: admin mail:admin@example.com pass: 1234!@#$
