@@ -34,7 +34,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 	public function getHeight(): int
 	{
-		return WidgetInterface::HEIGHT_FULL/2;
+		return WidgetInterface::HEIGHT_SMALL;
 	}
 
 	public function getOptions(array $options = []): array
