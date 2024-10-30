@@ -39,30 +39,34 @@ class UserProfileSubscriber implements EventSubscriberInterface
         }
 
         // Check if the user has the ROLE_ADMIN role
-        if (!$this->security->isGranted('ROLE_ADMIN')) {
-            return; // Only allow admins to customize preferences
-        }
+        $isAdmin = $this->security->isGranted('ROLE_ADMIN');
 
-        // Preferences for admins
         $event->addPreference(
             (new UserPreference('target-weekly-hours', 32))
                 ->setValue(32)
                 ->setType(IntegerType::class)
+                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
+
         $event->addPreference(
             (new UserPreference('target-weekly-start', '1970-01-30'))
                 ->setValue('1970-01-30')
                 ->setType(TextType::class)
+                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
+
         $event->addPreference(
             (new UserPreference('yearly-fte-vacation-days', 35))
                 ->setValue(35)
                 ->setType(NumberType::class)
+                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
+
         $event->addPreference(
             (new UserPreference('start-of-period-vacation-hours', 0))
                 ->setValue(0)
                 ->setType(NumberType::class)
+                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
     }
 
