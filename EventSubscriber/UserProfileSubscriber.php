@@ -56,7 +56,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
         );
 
         $event->addPreference(
-            (new UserPreference('yearly-fte-vacation-days', 35))
+            (new UserPreference('yearly-fte-vacation-hours', 168))
                 ->setValue(35)
                 ->setType(NumberType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
@@ -94,7 +94,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         // Not accounting for leap years
         $year_length = 365 * 24 * 60 * 60;
-        $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-fte-vacation-days') / $year_length;
+        $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-fte-vacation-hours') / $year_length;
 
         $earned_hours = $fte_ratio * $seconds_elapsed * $vacation_hours_per_second;
         $total_vacation_hours = $leftover_hours + $earned_hours;
