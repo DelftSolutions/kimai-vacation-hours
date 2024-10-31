@@ -30,12 +30,12 @@ final class VacationWidget extends AbstractWidget
 
 	public function getWidth(): int
 	{
-		return WidgetInterface::WIDTH_SMALL;
+		return WidgetInterface::WIDTH_FULL;
 	}
 
 	public function getHeight(): int
 	{
-		return WidgetInterface::HEIGHT_SMALL;
+		return WidgetInterface::HEIGHT_FULL;
 	}
 
 	public function getOptions(array $options = []): array
@@ -54,6 +54,7 @@ final class VacationWidget extends AbstractWidget
 
 		$options = $this->getOptions($options);
 		$user = $this->getUser();
+
 		$accounting_start = strtotime($user->getPreferenceValue('target-weekly-start'));
 		if ($accounting_start === false)
 			return null;
@@ -67,41 +68,51 @@ final class VacationWidget extends AbstractWidget
 
 		// for 32h per week, this will be 0.8
 		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
+
+		// Leftover vacation hours from previous periods
 		$leftover_hours = $user->getPreferenceValue('start-of-period-vacation-hours', 0);
 
-		// Calculate vacation accrual per second in hours
-		$year_length = 365 * 24 * 60 * 60; // Total seconds in a year
-		$vacation_hours_per_second = ($fte_ratio * $user->getPreferenceValue('yearly-fte-vacation-hours') * 8) / $year_length;
+		// Total seconds in a year
+		$year_length = 365 * 24 * 60 * 60;
 
-		// Earned hours based on time elapsed
+		// Calculate accrued vacation hours per second
+		$vacation_hours_per_second = ($fte_ratio * $user->getPreferenceValue('yearly-vacation-hours') * 8) / $year_length;
 
+		// Earned vacation hours based on elapsed time
 		$earned_hours = $seconds_elapsed * $vacation_hours_per_second;
-		$total_vacation_hours = $leftover_hours + $earned_hours;
 
+		// Extra 5 days of vacation converted to hours
+		$extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation');
+		$total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;
+
+		// Expected work hours based on weeks elapsed
 		$week_length = 7 * 24 * 60 * 60;
 		$elapsed_weeks = $seconds_elapsed / $week_length;
 		$expected_work_hours = $elapsed_weeks * $fte_ratio * 40;
 		$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
+		// Remaining vacation hours calculation
 		$work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
 		$vacation_hours_left = max(0, -$work_left);
-		// print_r([
-		// 	'fte_ratio' => $fte_ratio,
-		// 	'leftover_hours' => $leftover_hours,
-		// 	'vacation_hours_per_second' => $vacation_hours_per_second,
-		// 	'earned_hours' => $earned_hours,
-		// 	'expected_work_hours' => $expected_work_hours,
-		// 	'worked_hours' => $worked_hours,
-		// 	'work_left' => $work_left,
-		// 	'vacation_hours_left' => (int) ($vacation_hours_left),
-		// ]);
 
 		// Formatting as hours and minutes
 		$hours = floor($vacation_hours_left);
 		$minutes = ($vacation_hours_left - $hours) * 60;
 		$formatted_vacation_hours = sprintf("%02d:%02d h", $hours, $minutes);
 
+		print_r([
+			'fte_ratio' => $fte_ratio,
+			'leftover_hours' => $leftover_hours,
+			'vacation_hours_per_second' => $vacation_hours_per_second,
+			'earned_hours' => $earned_hours,
+			'expected_work_hours' => $expected_work_hours,
+			'worked_hours' => $worked_hours,
+			'work_left' => $work_left,
+			'vacation_hours_left' => (int) ($vacation_hours_left),
+			'extra_vacation_hours' => $extra_vacation_hours,
+		]);
 		return $formatted_vacation_hours;
+
 	}
 	public function getId(): string
 	{

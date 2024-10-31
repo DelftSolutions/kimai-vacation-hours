@@ -39,3 +39,5 @@ volumes:
 # Remove containers with their id's  docker rm  $(docker ps -aq)
 
 # Admin user:username: admin mail:admin@example.com pass: 1234!@#$
+#tannaz user: pass:12345678
+#dj as admin: pass:12345678

@@ -56,7 +56,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
         );
 
         $event->addPreference(
-            (new UserPreference('yearly-fte-vacation-hours', 168))
+            (new UserPreference('yearly-vacation-hours', 168))
                 ->setValue(35)
                 ->setType(NumberType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
@@ -66,6 +66,13 @@ class UserProfileSubscriber implements EventSubscriberInterface
             (new UserPreference('start-of-period-vacation-hours', 0))
                 ->setValue(0)
                 ->setType(NumberType::class)
+                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
+        );
+
+        $event->addPreference(
+            (new UserPreference('extra-vacation', 0))
+                ->setValue(0)
+                ->setType(IntegerType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
     }
@@ -94,10 +101,13 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         // Not accounting for leap years
         $year_length = 365 * 24 * 60 * 60;
-        $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-fte-vacation-hours') / $year_length;
+        $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
+        $vacation_hours_per_week = $user->getPreferenceValue('yearly-vacation-hours') * $fte_ratio;
+
+        $extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation');
 
         $earned_hours = $fte_ratio * $seconds_elapsed * $vacation_hours_per_second;
-        $total_vacation_hours = $leftover_hours + $earned_hours;
+        $total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;
 
         $week_length = 7 * 24 * 60 * 60;
         $elapsed_weeks = $seconds_elapsed / $week_length;
@@ -106,7 +116,15 @@ class UserProfileSubscriber implements EventSubscriberInterface
         $worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
         $work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
-
-        print_r($work_left);
+        print_r([
+            'fte_ratio' => $fte_ratio,
+            'leftover_hours' => $leftover_hours,
+            'vacation_hours_per_second' => $vacation_hours_per_second,
+            'earned_hours' => $earned_hours,
+            'expected_work_hours' => $expected_work_hours,
+            'worked_hours' => $worked_hours,
+            'work_left' => $work_left,
+            'extra_vacation_hours' => $extra_vacation_hours
+        ]);
     }
 }
