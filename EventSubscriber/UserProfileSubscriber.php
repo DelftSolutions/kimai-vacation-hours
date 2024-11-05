@@ -43,35 +43,31 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         $event->addPreference(
             (new UserPreference('target-weekly-hours', 32))
-                ->setValue(32)
+                // ->setValue(32)
                 ->setType(IntegerType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('target-weekly-start', '1970-01-30'))
-                ->setValue('1970-01-30')
                 ->setType(TextType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('yearly-vacation-hours', 168))
-                ->setValue(35)
                 ->setType(NumberType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('start-of-period-vacation-hours', 0))
-                ->setValue(0)
                 ->setType(NumberType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
-            (new UserPreference('extra-vacation', 0))
-                ->setValue(0)
+            (new UserPreference('extra-vacation-hours', 0))
                 ->setType(IntegerType::class)
                 ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
         );
@@ -104,7 +100,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
         $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
         $vacation_hours_per_week = $user->getPreferenceValue('yearly-vacation-hours') * $fte_ratio;
 
-        $extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation');
+        $extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation-hours');
 
         $earned_hours = $fte_ratio * $seconds_elapsed * $vacation_hours_per_second;
         $total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;

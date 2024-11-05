@@ -82,7 +82,7 @@ final class VacationWidget extends AbstractWidget
 		$earned_hours = $seconds_elapsed * $vacation_hours_per_second;
 
 		// Extra 5 days of vacation converted to hours
-		$extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation');
+		$extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation-hours');
 		$total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;
 
 		// Expected work hours based on weeks elapsed
