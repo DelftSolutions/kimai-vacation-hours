@@ -43,28 +43,31 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         $event->addPreference(
             (new UserPreference('target-weekly-hours', 32))
-                // ->setValue(32)
+                ->setValue(32)
                 ->setType(IntegerType::class)
-                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions(['label' => 'Target Weekly Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('target-weekly-start', '1970-01-30'))
+                ->setValue('1970-01-30')
                 ->setType(TextType::class)
-                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions(['label'    => 'Target Weekly Start Date' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('yearly-vacation-hours', 168))
+                ->setValue(35)
                 ->setType(NumberType::class)
-                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions(['label' => 'Yearly Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('start-of-period-vacation-hours', 0))
+                ->setValue(0)
                 ->setType(NumberType::class)
-                ->setOptions(['attr' => ['disabled' => !$isAdmin]]) // Make readonly if not admin
-        );
+                ->setOptions(['label' => 'Start of Period Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+            );
 
         $event->addPreference(
             (new UserPreference('extra-vacation-hours', 0))
