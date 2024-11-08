@@ -162,15 +162,5 @@ class UserProfileSubscriber implements EventSubscriberInterface
         $worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
         $work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
-        print_r([
-            'fte_ratio' => $fte_ratio,
-            'leftover_hours' => $leftover_hours,
-            'vacation_hours_per_second' => $vacation_hours_per_second,
-            'earned_hours' => $earned_hours,
-            'expected_work_hours' => $expected_work_hours,
-            'worked_hours' => $worked_hours,
-            'work_left' => $work_left,
-            'extra_vacation_hours' => $extra_vacation_hours
-        ]);
     }
 }

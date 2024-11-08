@@ -86,14 +86,6 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 		$minutes = floor(($seconds_left % 3600) / 60);
 		
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
-		// print_r([
-		// 	'fte_ratio' => $fte_ratio,
-		// 	'elapsed_weeks' => $elapsed_weeks,
-		// 	'expected_work_hours' => $expected_work_hours,
-		// 	'worked_hours' => $worked_hours,
-		// 	'work_left' => $work_left,
-		// 	'work_left * 60 * 60' => (int) ($work_left * 60 * 60),
-		// ]);
 
 		return $formatted_time;
 	}

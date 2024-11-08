@@ -99,18 +99,6 @@ final class VacationWidget extends AbstractWidget
 		$hours = floor($vacation_hours_left);
 		$minutes = ($vacation_hours_left - $hours) * 60;
 		$formatted_vacation_hours = sprintf("%02d:%02d h", $hours, $minutes);
-
-		print_r([
-			'fte_ratio' => $fte_ratio,
-			'leftover_hours' => $leftover_hours,
-			'vacation_hours_per_second' => $vacation_hours_per_second,
-			'earned_hours' => $earned_hours,
-			'expected_work_hours' => $expected_work_hours,
-			'worked_hours' => $worked_hours,
-			'work_left' => $work_left,
-			'vacation_hours_left' => (int) ($vacation_hours_left),
-			'extra_vacation_hours' => $extra_vacation_hours,
-		]);
 		return $formatted_vacation_hours;
 
 	}
