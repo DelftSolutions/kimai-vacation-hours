@@ -72,7 +72,7 @@ final class VacationWidget extends AbstractWidget
 		// Leftover vacation hours from previous periods
 		$leftover_hours = $user->getPreferenceValue('start-of-period-vacation-hours', 0);
 
-		// Total seconds in a year
+		// Total seconds in a year, not account for leap years
 		$year_length = 365 * 24 * 60 * 60;
 
 		// Calculate accrued vacation hours per second
@@ -81,8 +81,7 @@ final class VacationWidget extends AbstractWidget
 		// Earned vacation hours based on elapsed time
 		$earned_hours = $seconds_elapsed * $vacation_hours_per_second;
 
-		// Extra 5 days of vacation converted to hours
-		$extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation-hours');
+		$extra_vacation_hours = $user->getPreferenceValue('extra-vacation-hours');
 		$total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;
 
 		// Expected work hours based on weeks elapsed

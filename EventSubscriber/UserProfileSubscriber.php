@@ -148,7 +148,6 @@ class UserProfileSubscriber implements EventSubscriberInterface
         // Not accounting for leap years
         $year_length = 365 * 24 * 60 * 60;
         $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
-        $vacation_hours_per_week = $user->getPreferenceValue('yearly-vacation-hours') * $fte_ratio;
 
         $extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation-hours');
 
