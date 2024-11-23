@@ -147,11 +147,11 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         // Not accounting for leap years
         $year_length = 365 * 24 * 60 * 60;
-        $vacation_hours_per_second = 24 * $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
+        $vacation_hours_per_second = $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
 
-        $extra_vacation_hours = 5 * $user->getPreferenceValue('extra-vacation-hours');
+        $extra_vacation_hours = $user->getPreferenceValue('extra-vacation-hours');
 
-        $earned_hours = $fte_ratio * $seconds_elapsed * $vacation_hours_per_second;
+        $earned_hours = $seconds_elapsed * $vacation_hours_per_second;
         $total_vacation_hours = $leftover_hours + $earned_hours + $extra_vacation_hours;
 
         $week_length = 7 * 24 * 60 * 60;
@@ -161,5 +161,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
         $worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
         $work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
+        
+        print_r($work_left);
     }
 }
