@@ -76,7 +76,7 @@ final class VacationWidget extends AbstractWidget
 		$year_length = 365 * 24 * 60 * 60;
 
 		// Calculate accrued vacation hours per second
-		$vacation_hours_per_second = ($fte_ratio * $user->getPreferenceValue('yearly-vacation-hours') * 8) / $year_length;
+		$vacation_hours_per_second = $user->getPreferenceValue('yearly-vacation-hours') / $year_length;
 
 		// Earned vacation hours based on elapsed time
 		$earned_hours = $seconds_elapsed * $vacation_hours_per_second;
