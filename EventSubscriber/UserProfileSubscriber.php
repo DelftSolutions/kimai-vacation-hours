@@ -96,12 +96,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
                 'Extra Vacation Hours': " . $event->getUser()->getPreferenceValue('extra-vacation-hours') . ",
             };
 
-            let form;
-            while(!form) {
-              await new Promise(resolve => setTimeout(resolve, 10));
-              form = document.querySelector('form');
-            }
-
+            const form = document.querySelector('form');
             const formBody = form.querySelector('.card-body');
 
             Object.entries(window.DS_VacationData).forEach(([preferenceLabel, preferenceValue]) => {
@@ -121,7 +116,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
             })
           }
 
-          showVacationInformation();
+          window.addEventListener('load', showVacationInformation);
           </script>";
         }
 
