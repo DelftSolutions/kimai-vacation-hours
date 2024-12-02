@@ -85,8 +85,11 @@ class UserProfileSubscriber implements EventSubscriberInterface
           // if user is not admin, we show them an unsubmittable fake input, so they know their vacation information
           echo "<script>
           async function showVacationInformation() {
-            // for some reason this script is included twice in the page, so we break if its already loaded
-            if (window.DS_VacationData) return;
+            if (window.DS_VacationData) {
+              // The `loadUserProfile` is usually called multiple times,
+              // and we need to bail out if this function is executed once.
+              return;
+            }
 
             window.DS_VacationData = {
                 'Target Weekly Hours': " . $event->getUser()->getPreferenceValue('target-weekly-hours') . ",
