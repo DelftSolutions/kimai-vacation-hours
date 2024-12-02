@@ -116,7 +116,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
             })
           }
 
-          window.addEventListener('load', showVacationInformation);
+          document.addEventListener('DOMContentLoaded', showVacationInformation);
           </script>";
         }
 
