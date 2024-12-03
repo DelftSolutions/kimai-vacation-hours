@@ -70,6 +70,7 @@ final class WeekProgressWidget extends AbstractWidget
 			return null;
 		$endDate = new DateTime();
 		$endDate->setTimestamp($accounting_end);
+
 		$user = $this->getUser();
 		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
 

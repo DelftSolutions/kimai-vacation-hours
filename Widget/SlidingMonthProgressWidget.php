@@ -66,9 +66,9 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 		if ($seconds_elapsed < 0)
 			return null;
 		$endDate = new DateTime();
-		$user = $this->getUser();
 		$endDate->setTimestamp($accounting_end);
-
+		
+		$user = $this->getUser();
 		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
 
 		$elapsed_weeks = $seconds_elapsed / $week_length;
@@ -77,23 +77,14 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 		$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
-		$work_left = max(0, $expected_work_hours - $worked_hours);
+		$work_hours_left = max(0, $expected_work_hours - $worked_hours);
 
+		$work_seconds_left = (int) ($work_hours_left * 60 * 60);
 
-		$seconds_left = (int) ($work_left * 60 * 60);
-
-		$hours = floor($seconds_left / 3600);
-		$minutes = floor(($seconds_left % 3600) / 60);
+		$hours = floor($work_seconds_left / 3600);
+		$minutes = floor(($work_seconds_left % 3600) / 60);
 		
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
-		// print_r([
-		// 	'fte_ratio' => $fte_ratio,
-		// 	'elapsed_weeks' => $elapsed_weeks,
-		// 	'expected_work_hours' => $expected_work_hours,
-		// 	'worked_hours' => $worked_hours,
-		// 	'work_left' => $work_left,
-		// 	'work_left * 60 * 60' => (int) ($work_left * 60 * 60),
-		// ]);
 
 		return $formatted_time;
 	}
