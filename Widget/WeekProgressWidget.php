@@ -82,14 +82,6 @@ final class WeekProgressWidget extends AbstractWidget
 		$worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
 		$work_left = max(0, $expected_work_hours - $worked_hours);
-		// print_r([
-		// 	'fte_ratio' => $fte_ratio,
-		// 	'elapsed_weeks' => $elapsed_weeks,
-		// 	'expected_work_hours' => $expected_work_hours,
-		// 	'worked_hours' => $worked_hours,
-		// 	'work_left' => $work_left,
-		// 	'work_left * 60 * 60' => (int) ($work_left * 60 * 60),
-		// ]);
 
 
 		$seconds_left = (int) ($work_left * 60 * 60);

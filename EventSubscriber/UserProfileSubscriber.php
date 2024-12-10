@@ -91,6 +91,9 @@ class UserProfileSubscriber implements EventSubscriberInterface
               return;
             }
 
+            // we want to show the inputs to user only on prefs page
+            if (!window.location.href.endsWith('/prefs')) return;
+
             window.DS_VacationData = {
                 'Target Weekly Hours': " . $event->getUser()->getPreferenceValue('target-weekly-hours') . ",
                 'Target Weekly Start': " . $event->getUser()->getPreferenceValue('target-weekly-start') . ",
@@ -158,8 +161,6 @@ class UserProfileSubscriber implements EventSubscriberInterface
         $expected_work_hours = $elapsed_weeks * $fte_ratio * 40;
         $worked_hours = $this->repository->getStatistic('duration', $startDate, $endDate, $user) / 60 / 60;
 
-        $work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;
-        
-        print_r($work_left);
+        $work_left = $expected_work_hours - $total_vacation_hours - $worked_hours;   
     }
 }
