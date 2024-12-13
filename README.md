@@ -1,5 +1,7 @@
 # VacationHours
 
+For Kimai2
+
 ## Installation
 
 First clone it to your Kimai installation `plugins` directory:
@@ -15,3 +17,5 @@ chown -R :www-data .
 chmod -R g+r .
 chmod -R g+rw var/
 ```
+
+You probably need to `chown` and `chmod` based on your local setup.
