@@ -12,7 +12,7 @@ git clone https://github.com/delftsolutions/kimai-vacation-hours.git VacationHou
 
 And then rebuild the cache (As described on https://www.kimai.org/documentation/cache.html). `cd` into the top Kimai directory and execute the following commands:
 ```
-bin/console kimai:reloadd --env=prod
+bin/console kimai:reload --env=prod
 chown -R :www-data .
 chmod -R g+r .
 chmod -R g+rw var/
