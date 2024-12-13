@@ -8,8 +8,10 @@ cd /kimai/var/plugins/
 git clone https://github.com/delftsolutions/kimai-vacation-hours.git VacationHoursBundle
 ```
 
-And then rebuild the cache: 
+And then rebuild the cache (As described on https://www.kimai.org/documentation/cache.html). `cd` into the top Kimai directory and execute the following commands:
 ```
-cd /kimai/
-bin/console kimai:reload
+bin/console kimai:reloadd --env=prod
+chown -R :www-data .
+chmod -R g+r .
+chmod -R g+rw var/
 ```
