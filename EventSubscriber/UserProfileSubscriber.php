@@ -4,15 +4,17 @@ namespace KimaiPlugin\VacationHoursBundle\EventSubscriber;
 
 use App\Entity\UserPreference;
 use App\Event\UserPreferenceEvent;
+use App\Repository\TimesheetRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use KimaiPlugin\VacationHoursBundle\Library\VacationHoursCalculator;
 
 class UserProfileSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private Security $security)
+    public function __construct(private TimeSheetRepository $repository, private Security $security)
     {
     }
 
@@ -65,6 +67,37 @@ class UserProfileSubscriber implements EventSubscriberInterface
                 ->setEnabled($isAdmin)
                 ->setType(IntegerType::class)
                 ->setOptions(['label' => 'Extra Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+	);
+
+	$event->addPreference(
+		(new UserPreference('yearly-fte-vacation-days', -9))
+			->setType(IntegerType::class)
+			->setOptions(['attr' => ['readonly' => true]])
+			->setSection('Vacation Hours')
+	);
+
+	$event->addPreference(
+		(new UserPreference('vacation-hours-placeholder', -9))
+			->setType(TextType::class)
+			->setSection('Vacation Hours')
+			->setOptions([
+				'label' => 'Current vacation hours',
+				'attr' => ['readonly' => true],
+				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+			])
+	);
+
+	$event->addPreference(
+                (new UserPreference('vacation-hours-placeholder-old', -9))
+                        ->setType(TextType::class)
+                        ->setSection('Vacation Hours')
+                        ->setOptions([
+                                'label' => 'Current vacation hours (Old system)',
+                                'attr' => ['readonly' => true],
+                                #'data' => VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository)
+                                'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository))
+                        ])
         );
     }
 }

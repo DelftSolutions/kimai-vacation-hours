@@ -30,7 +30,7 @@ final class ThemeEventSubscriber implements EventSubscriberInterface
         if (!$event->getUser())
             return;
 
-        if(!$this->security->isGranted('ROLE_ADMIN')) {
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
             // if user is not admin, we show them an unsubmittable fake input, so they know their vacation information
             $script = "<script>
               async function showVacationInformation() {
