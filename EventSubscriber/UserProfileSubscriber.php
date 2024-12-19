@@ -77,14 +77,26 @@ class UserProfileSubscriber implements EventSubscriberInterface
 	);
 
 	$event->addPreference(
-		(new UserPreference('vacation-hours-placeholder', -9))
+		(new UserPreference('vacation-hours-placeholder-v2', -9))
 			->setType(TextType::class)
 			->setSection('Vacation Hours')
 			->setOptions([
-				'label' => 'Current vacation hours',
+				'label' => 'Current vacation hours (V2)',
 				'attr' => ['readonly' => true],
 				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
 				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+			])
+	);
+
+	$event->addPreference(
+		(new UserPreference('vacation-hours-placeholder-v1', -9))
+			->setType(TextType::class)
+			->setSection('Vacation Hours')
+			->setOptions([
+				'label' => 'Current vacation hours (V1)',
+				'attr' => ['readonly' => true],
+				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursV1($event->getUser(), $this->repository))
 			])
 	);
 
