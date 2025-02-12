@@ -50,7 +50,7 @@ final class ThemeEventSubscriber implements EventSubscriberInterface
                     'Start of Period Vacation Hours': '" . $event->getUser()->getPreferenceValue('start-of-period-vacation-hours') . "',
                     'Extra Vacation Hours': '" . $event->getUser()->getPreferenceValue('extra-vacation-hours') . "',
                 };
-
+		console.log(window.DS_VacationData);
                 const form = document.querySelector('form');
                 const formBody = form.querySelector('.card-body');
 
@@ -72,7 +72,7 @@ final class ThemeEventSubscriber implements EventSubscriberInterface
               }
 
               document.addEventListener('DOMContentLoaded', showVacationInformation);
-              </script>";
+	      </script>";
           $event->addContent($script);
         }
     }

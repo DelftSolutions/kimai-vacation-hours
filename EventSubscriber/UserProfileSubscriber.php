@@ -71,7 +71,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
 	$event->addPreference(
 		(new UserPreference('yearly-fte-vacation-days', -9))
-			->setType(IntegerType::class)
+			->setType(NumberType::class)
 			->setOptions(['attr' => ['readonly' => true]])
 			->setSection('Vacation Hours')
 	);
@@ -84,7 +84,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
 				'label' => 'Current vacation hours (V2)',
 				'attr' => ['readonly' => true],
 				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
-				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHours($event->getUser(), $this->repository) ?: 0)
 			])
 	);
 
@@ -96,7 +96,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
 				'label' => 'Current vacation hours (V1)',
 				'attr' => ['readonly' => true],
 				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
-				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursV1($event->getUser(), $this->repository))
+				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursV1($event->getUser(), $this->repository) ?: 0)
 			])
 	);
 
@@ -108,7 +108,7 @@ class UserProfileSubscriber implements EventSubscriberInterface
                                 'label' => 'Current vacation hours (Old system)',
                                 'attr' => ['readonly' => true],
                                 #'data' => VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository)
-                                'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository))
+                                'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository) ?: 0)
                         ])
         );
     }

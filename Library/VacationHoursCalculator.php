@@ -42,7 +42,7 @@ class VacationHoursCalculator
 		$earned_fixed_vacation_hours_per_second = $seconds_elapsed * $fixed_vacation_hours_per_second;
 		
 		// The grand total of vacation hours accrued
-		$total_vacation_hours = $initial_hours + $earned_additional_vacation_hours + $earned_$fixed_vacation_hours_per_second;
+		$total_vacation_hours = $initial_hours + $earned_additional_vacation_hours + $earned_fixed_vacation_hours_per_second;
 
 		// Expected work hours based on weeks elapsed
 		$week_length = 7 * 24 * 60 * 60;
