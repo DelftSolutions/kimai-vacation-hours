@@ -46,9 +46,9 @@ final class ThemeEventSubscriber implements EventSubscriberInterface
                 window.DS_VacationData = {
                     'Target Weekly Hours': '" . $event->getUser()->getPreferenceValue('target-weekly-hours') . "',
                     'Target Weekly Start': '" . date_format(date_create($event->getUser()->getPreferenceValue('target-weekly-start')), "Y-m-d") . "',
-                    'Yearly Vacation Hours': '" . $event->getUser()->getPreferenceValue('yearly-vacation-hours') . "',
+                    'Yearly Vacation Days': '" . $event->getUser()->getPreferenceValue('yearly-vacation-days') . "',
                     'Start of Period Vacation Hours': '" . $event->getUser()->getPreferenceValue('start-of-period-vacation-hours') . "',
-                    'Extra Vacation Hours': '" . $event->getUser()->getPreferenceValue('extra-vacation-hours') . "',
+                    'Extra Vacation Days': '" . $event->getUser()->getPreferenceValue('extra-vacation-days') . "',
                 };
 		console.log(window.DS_VacationData);
                 const form = document.querySelector('form');

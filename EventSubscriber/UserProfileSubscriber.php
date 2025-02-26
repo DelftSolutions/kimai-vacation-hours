@@ -49,10 +49,10 @@ class UserProfileSubscriber implements EventSubscriberInterface
         );
 
         $event->addPreference(
-            (new UserPreference('yearly-vacation-hours', 168))
+            (new UserPreference('yearly-vacation-days', 16))
                 ->setEnabled($isAdmin)
                 ->setType(NumberType::class)
-                ->setOptions(['label' => 'Yearly Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions(['label' => 'Yearly Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
@@ -63,53 +63,53 @@ class UserProfileSubscriber implements EventSubscriberInterface
         );
 
         $event->addPreference(
-            (new UserPreference('extra-vacation-hours', 0))
+            (new UserPreference('extra-vacation-days', 0))
                 ->setEnabled($isAdmin)
                 ->setType(IntegerType::class)
-                ->setOptions(['label' => 'Extra Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions(['label' => 'Extra Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
 	);
 
-	$event->addPreference(
-		(new UserPreference('yearly-fte-vacation-days', -9))
-			->setType(NumberType::class)
-			->setOptions(['attr' => ['readonly' => true]])
-			->setSection('Vacation Hours')
-	);
+	// $event->addPreference(
+	// 	(new UserPreference('yearly-fte-vacation-days', -9))
+	// 		->setType(NumberType::class)
+	// 		->setOptions(['attr' => ['readonly' => true]])
+	// 		->setSection('Vacation Hours')
+	// );
 
 	$event->addPreference(
 		(new UserPreference('vacation-hours-placeholder-v2', -9))
 			->setType(TextType::class)
 			->setSection('Vacation Hours')
 			->setOptions([
-				'label' => 'Current vacation hours (V2)',
+				'label' => 'Current vacation hours',
 				'attr' => ['readonly' => true],
 				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
 				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHours($event->getUser(), $this->repository) ?: 0)
 			])
 	);
 
-	$event->addPreference(
-		(new UserPreference('vacation-hours-placeholder-v1', -9))
-			->setType(TextType::class)
-			->setSection('Vacation Hours')
-			->setOptions([
-				'label' => 'Current vacation hours (V1)',
-				'attr' => ['readonly' => true],
-				#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
-				'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursV1($event->getUser(), $this->repository) ?: 0)
-			])
-	);
+	// $event->addPreference(
+	// 	(new UserPreference('vacation-hours-placeholder-v1', -9))
+	// 		->setType(TextType::class)
+	// 		->setSection('Vacation Hours')
+	// 		->setOptions([
+	// 			'label' => 'Current vacation hours (V1)',
+	// 			'attr' => ['readonly' => true],
+	// 			#'data' => (VacationHoursCalculator::calculateHours($event->getUser(), $this->repository))
+	// 			'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursV1($event->getUser(), $this->repository) ?: 0)
+	// 		])
+	// );
 
-	$event->addPreference(
-                (new UserPreference('vacation-hours-placeholder-old', -9))
-                        ->setType(TextType::class)
-                        ->setSection('Vacation Hours')
-                        ->setOptions([
-                                'label' => 'Current vacation hours (Old system)',
-                                'attr' => ['readonly' => true],
-                                #'data' => VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository)
-                                'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository) ?: 0)
-                        ])
-        );
+	// $event->addPreference(
+    //             (new UserPreference('vacation-hours-placeholder-old', -9))
+    //                     ->setType(TextType::class)
+    //                     ->setSection('Vacation Hours')
+    //                     ->setOptions([
+    //                             'label' => 'Current vacation hours (Old system)',
+    //                             'attr' => ['readonly' => true],
+    //                             #'data' => VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository)
+    //                             'data' => VacationHoursCalculator::formatHours(VacationHoursCalculator::calculateHoursOld($event->getUser(), $this->repository) ?: 0)
+    //                     ])
+    //     );
     }
 }
