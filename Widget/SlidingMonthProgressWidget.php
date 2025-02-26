@@ -41,7 +41,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'success';
+		$options['icon'] = 'clock';
 		if (empty($options['id'])) {
 			$options['id'] = 'SlidingMonthProgressWidget';
 		}
@@ -54,7 +54,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 		$options = $this->getOptions($options);
 		// $user = $options['user'];
 		$week_length = 7 * 24 * 60 * 60;
-		$accounting_start = strtotime('last monday') - 3 * $week_length;
+		$accounting_start = strtotime('monday this week 00:00:00') - 3 * $week_length;
 
 		if ($accounting_start === false)
 			return null;
@@ -67,7 +67,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 			return null;
 		$endDate = new DateTime();
 		$endDate->setTimestamp($accounting_end);
-		
+
 		$user = $this->getUser();
 		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
 
@@ -83,7 +83,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 		$hours = floor($work_seconds_left / 3600);
 		$minutes = floor(($work_seconds_left % 3600) / 60);
-		
+
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
 
 		return $formatted_time;

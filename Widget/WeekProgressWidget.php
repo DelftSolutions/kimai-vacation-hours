@@ -43,7 +43,7 @@ final class WeekProgressWidget extends AbstractWidget
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'timesheet';
+		$options['icon'] = 'clock';
 		if (empty($options['id'])) {
 			$options['id'] = 'WeekProgressWidget';
 
@@ -58,7 +58,7 @@ final class WeekProgressWidget extends AbstractWidget
 		$options = $this->getOptions($options);
 		// $user = $options['user'];
 
-		$accounting_start = strtotime('last monday');
+		$accounting_start = strtotime('monday this week 00:00:00');
 		if ($accounting_start === false)
 			return null;
 		$startDate = new DateTime();
@@ -88,9 +88,9 @@ final class WeekProgressWidget extends AbstractWidget
 
 		$hours = floor($seconds_left / 3600);
 		$minutes = floor(($seconds_left % 3600) / 60);
-		
+
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
-		
+
 		return $formatted_time;
 	}
 	public function getId(): string

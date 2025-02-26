@@ -27,7 +27,7 @@ final class VacationWidget extends AbstractWidget
 	public function getOptions(array $options = []): array
 	{
 		$options = parent::getOptions($options);
-		$options['icon'] = 'spinner';
+		$options['icon'] = 'mail-sent';
 		if (empty($options['id'])) {
 			$options['id'] = 'VacationWidget';
 		}
