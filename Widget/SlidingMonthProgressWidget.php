@@ -6,7 +6,6 @@ use App\Repository\TimesheetRepository;
 use App\Widget\Type\AbstractWidget;
 use DateTime;
 use DateInterval;
-// use App\Security\CurrentUser;
 use App\Widget\Type\SimpleWidget;
 use App\Widget\WidgetInterface;
 
@@ -14,18 +13,7 @@ use App\Widget\WidgetInterface;
 final class SlidingMonthProgressWidget extends AbstractWidget
 {
 	public function __construct(private TimesheetRepository $repository)
-	{
-		// $this->repository = $repository;
-
-		// $this->setId('SlidingMonthProgressWidget');
-		// $this->setTitle('Last 4 weeks hours left');
-		// $this->setOptions([
-		//     	'user' => $user->getUser(),
-		//     	'id' => '',
-		// 	'icon' => 'time',
-		// 	'dataType' => 'duration',
-		//     ]);
-	}
+	{}
 
 	public function getWidth(): int
 	{
@@ -52,7 +40,6 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 	public function getData(array $options = []): mixed
 	{
 		$options = $this->getOptions($options);
-		// $user = $options['user'];
 		$week_length = 7 * 24 * 60 * 60;
 		$accounting_start = strtotime('monday this week 00:00:00') - 3 * $week_length;
 
