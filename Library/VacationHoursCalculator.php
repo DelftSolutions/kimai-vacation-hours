@@ -40,7 +40,7 @@ class VacationHoursCalculator
 		// And calculate how many 'fixed' vacation hours have been accrued
 		$fixed_vacation_hours_per_second = $user->getPreferenceValue('extra-vacation-hours') / $year_length;
 		$earned_fixed_vacation_hours_per_second = $seconds_elapsed * $fixed_vacation_hours_per_second;
-		
+
 		// The grand total of vacation hours accrued
 		$total_vacation_hours = $initial_hours + $earned_additional_vacation_hours + $earned_fixed_vacation_hours_per_second;
 
@@ -52,7 +52,8 @@ class VacationHoursCalculator
 
 		// Remaining vacation hours calculation
 		$work_left = $expected_worked_hours - $actual_worked_hours;
-		$vacation_hours_left = max(0, $total_vacation_hours-$work_left);
+		$vacation_hours_left =
+		$total_vacation_hours-$work_left;
 
 		return $vacation_hours_left;
 	}
@@ -141,10 +142,18 @@ class VacationHoursCalculator
 
 	public static function formatHours(float $time)
 	{
-		// Formatting as hours and minutes
-		$hours = floor($time);
-		$minutes = ($time - $hours) * 60;
+		$vacation_hours_left = abs($time);
+		// $vacation_hours_left = VacationHoursCalculator::calculatehours($user, $this->repository);
+
+		if (is_null($vacation_hours_left))
+			return null;
+
+		$hours = floor($vacation_hours_left);
+		$minutes = ($vacation_hours_left - $hours) * 60;
 		$formatted_vacation_hours = sprintf("%02d:%02d h", $hours, $minutes);
+		if ($time < 0) {
+			$formatted_vacation_hours = "-" . $formatted_vacation_hours;
+		}
 		return $formatted_vacation_hours;
 	}
 }
