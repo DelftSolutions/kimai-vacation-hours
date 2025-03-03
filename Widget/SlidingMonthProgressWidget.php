@@ -6,7 +6,6 @@ use App\Repository\TimesheetRepository;
 use App\Widget\Type\AbstractWidget;
 use DateTime;
 use DateInterval;
-// use App\Security\CurrentUser;
 use App\Widget\Type\SimpleWidget;
 use App\Widget\WidgetInterface;
 
@@ -14,18 +13,7 @@ use App\Widget\WidgetInterface;
 final class SlidingMonthProgressWidget extends AbstractWidget
 {
 	public function __construct(private TimesheetRepository $repository)
-	{
-		// $this->repository = $repository;
-
-		// $this->setId('SlidingMonthProgressWidget');
-		// $this->setTitle('Last 4 weeks hours left');
-		// $this->setOptions([
-		//     	'user' => $user->getUser(),
-		//     	'id' => '',
-		// 	'icon' => 'time',
-		// 	'dataType' => 'duration',
-		//     ]);
-	}
+	{}
 
 	public function getWidth(): int
 	{
@@ -41,7 +29,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'success';
+		$options['icon'] = 'fa-regular fa-business-time';
 		if (empty($options['id'])) {
 			$options['id'] = 'SlidingMonthProgressWidget';
 		}
@@ -52,9 +40,8 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 	public function getData(array $options = []): mixed
 	{
 		$options = $this->getOptions($options);
-		// $user = $options['user'];
 		$week_length = 7 * 24 * 60 * 60;
-		$accounting_start = strtotime('last monday') - 3 * $week_length;
+		$accounting_start = strtotime('monday this week 00:00:00') - 3 * $week_length;
 
 		if ($accounting_start === false)
 			return null;
@@ -67,7 +54,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 			return null;
 		$endDate = new DateTime();
 		$endDate->setTimestamp($accounting_end);
-		
+
 		$user = $this->getUser();
 		$fte_ratio = $user->getPreferenceValue('target-weekly-hours', 0) / 40.0;
 
@@ -83,7 +70,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 		$hours = floor($work_seconds_left / 3600);
 		$minutes = floor(($work_seconds_left % 3600) / 60);
-		
+
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
 
 		return $formatted_time;

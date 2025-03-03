@@ -6,7 +6,6 @@ use App\Repository\TimesheetRepository;
 use App\Widget\Type\AbstractWidget;
 use DateTime;
 use DateInterval;
-// use App\Security\CurrentUser;
 use App\Entity\User;
 use App\Widget\Type\SimpleWidget;
 use App\Widget\WidgetInterface;
@@ -15,19 +14,7 @@ final class WeekProgressWidget extends AbstractWidget
 {
 
 	public function __construct(private TimesheetRepository $repository)
-	{
-		// $user = $this->getUser();
-		// $this->repository = $repository;
-
-		// $this->setId('WeekProgressWidget');
-		// $this->setTitle('Week hours left');
-		// $this->getOptions([
-		// 	'user' => $user->getUser(),
-		// 	'id' => '',
-		// 'icon' => 'time',
-		// 	'dataType' => 'duration',
-		// ]);
-	}
+	{}
 
 	public function getWidth(): int
 	{
@@ -43,7 +30,7 @@ final class WeekProgressWidget extends AbstractWidget
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'timesheet';
+		$options['icon'] = 'fa-regular fa-business-time';
 		if (empty($options['id'])) {
 			$options['id'] = 'WeekProgressWidget';
 
@@ -56,9 +43,8 @@ final class WeekProgressWidget extends AbstractWidget
 	{
 
 		$options = $this->getOptions($options);
-		// $user = $options['user'];
 
-		$accounting_start = strtotime('last monday');
+		$accounting_start = strtotime('monday this week 00:00:00');
 		if ($accounting_start === false)
 			return null;
 		$startDate = new DateTime();
@@ -88,9 +74,9 @@ final class WeekProgressWidget extends AbstractWidget
 
 		$hours = floor($seconds_left / 3600);
 		$minutes = floor(($seconds_left % 3600) / 60);
-		
+
 		$formatted_time = sprintf("%02d:%02d h", $hours, $minutes);
-		
+
 		return $formatted_time;
 	}
 	public function getId(): string

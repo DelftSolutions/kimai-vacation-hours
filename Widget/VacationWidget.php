@@ -27,7 +27,7 @@ final class VacationWidget extends AbstractWidget
 	public function getOptions(array $options = []): array
 	{
 		$options = parent::getOptions($options);
-		$options['icon'] = 'spinner';
+		$options['icon'] = 'fa-solid fa-plane';
 		if (empty($options['id'])) {
 			$options['id'] = 'VacationWidget';
 		}
@@ -39,15 +39,8 @@ final class VacationWidget extends AbstractWidget
 	{
 		$user = $this->getUser();
 
-		$vacation_hours_left = VacationHoursCalculator::calculatehours($user, $this->repository);
-
-		if (is_null($vacation_hours_left))
-			return null;
-
-		$hours = floor($vacation_hours_left);
-		$minutes = ($vacation_hours_left - $hours) * 60;
-		$formatted_vacation_hours = sprintf("%02d:%02d h", $hours, $minutes);
-		return $formatted_vacation_hours;
+		$orig_vacation_hours_left = VacationHoursCalculator::calculatehours($user, $this->repository);
+		return VacationHoursCalculator::formatHours($orig_vacation_hours_left);
 
 	}
 	public function getId(): string
