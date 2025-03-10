@@ -29,7 +29,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 	{
 		$options = parent::getOptions($options);
 
-		$options['icon'] = 'fa-regular fa-business-time';
+		$options['icon'] = 'fa-solid fa-business-time';
 		if (empty($options['id'])) {
 			$options['id'] = 'SlidingMonthProgressWidget';
 		}
