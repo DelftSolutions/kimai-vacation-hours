@@ -36,35 +36,35 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         $event->addPreference(
             (new UserPreference('target-weekly-hours', 32))
-                ->setEnabled($isAdmin)
+                ->setEnabled(!$isAdmin)
                 ->setType(IntegerType::class)
                 ->setOptions(['label' => 'Target Weekly Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('target-weekly-start', '1970-01-30'))
-                ->setEnabled($isAdmin)
+                ->setEnabled(!$isAdmin)
                 ->setType(TextType::class)
                 ->setOptions(['label'    => 'Target Weekly Start Date' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('yearly-vacation-days', 16))
-                ->setEnabled($isAdmin)
+                ->setEnabled(!$isAdmin)
                 ->setType(NumberType::class)
                 ->setOptions(['label' => 'Yearly Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('start-of-period-vacation-hours', 0))
-                ->setEnabled($isAdmin)
+                ->setEnabled(!$isAdmin)
                 ->setType(NumberType::class)
                 ->setOptions(['label' => 'Start of Period Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
         );
 
         $event->addPreference(
             (new UserPreference('extra-vacation-days', 0))
-                ->setEnabled($isAdmin)
+                ->setEnabled(!$isAdmin)
                 ->setType(IntegerType::class)
                 ->setOptions(['label' => 'Extra Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
 	);
