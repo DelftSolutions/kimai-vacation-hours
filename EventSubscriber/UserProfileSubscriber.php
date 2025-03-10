@@ -36,38 +36,118 @@ class UserProfileSubscriber implements EventSubscriberInterface
 
         $event->addPreference(
             (new UserPreference('target-weekly-hours', 32))
-                ->setEnabled(!$isAdmin)
+                ->setEnabled($isAdmin)
+                ->setSection('Vacation Hours')
                 ->setType(IntegerType::class)
-                ->setOptions(['label' => 'Target Weekly Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions([
+                    'label' => 'Target Weekly Hours'
+                    ])
+        );
+
+        // The placeholder only reads the value
+        $event->addPreference(
+            (new UserPreference('target-weekly-hours-placeholder', 32))
+                ->setEnabled(!$isAdmin)
+                ->setSection('Vacation Hours')
+                ->setType(IntegerType::class)
+                ->setOptions([
+                    'label' => 'Target Weekly Hours (Read-Only)',
+                    'attr' => ['readonly' => true],
+                    'data' => $user->getPreferenceValue('target-weekly-hours')
+                    ])
         );
 
         $event->addPreference(
             (new UserPreference('target-weekly-start', '1970-01-30'))
-                ->setEnabled(!$isAdmin)
+                ->setEnabled($isAdmin)
+                ->setSection('Vacation Hours')
                 ->setType(TextType::class)
-                ->setOptions(['label'    => 'Target Weekly Start Date' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions([
+                    'label'    => 'Target Weekly Start Date'
+                    ])
+        );
+
+        // The placeholder only reads the value
+        $event->addPreference(
+            (new UserPreference('target-weekly-start-placeholder', '1970-01-30'))
+                ->setEnabled(!$isAdmin)
+                ->setSection('Vacation Hours')
+                ->setType(TextType::class)
+                ->setOptions([
+                    'label' => 'Target Weekly Start Date (Read-Only)',
+                    'attr' => ['readonly' => true],
+                    'data' => $user->getPreferenceValue('target-weekly-start')
+                ])
         );
 
         $event->addPreference(
             (new UserPreference('yearly-vacation-days', 16))
-                ->setEnabled(!$isAdmin)
+                ->setEnabled($isAdmin)
+                ->setSection('Vacation Hours')
                 ->setType(NumberType::class)
-                ->setOptions(['label' => 'Yearly Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions([
+                    'label' => 'Yearly Vacation Days'
+                    ])
+        );
+
+        // The placeholder only reads the value
+        $event->addPreference(
+            (new UserPreference('yearly-vacation-days-placeholder', 16))
+                ->setEnabled(!$isAdmin)
+                ->setSection('Vacation Hours')
+                ->setType(NumberType::class)
+                ->setOptions([
+                    'label' => 'Yearly Vacation Days',
+                    'attr' => ['readonly' => true],
+                    'data' => $user->getPreferenceValue('yearly-vacation-days')
+                    ])
         );
 
         $event->addPreference(
             (new UserPreference('start-of-period-vacation-hours', 0))
-                ->setEnabled(!$isAdmin)
+                ->setEnabled($isAdmin)
+                ->setSection('Vacation Hours')
                 ->setType(NumberType::class)
-                ->setOptions(['label' => 'Start of Period Vacation Hours' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
+                ->setOptions([
+                    'label' => 'Start of Period Vacation Hours'
+                    ])
+        );
+
+        // The placeholder only reads the value
+        $event->addPreference(
+            (new UserPreference('start-of-period-vacation-hours--placeholder', 0))
+                ->setEnabled(!$isAdmin)
+                ->setSection('Vacation Hours')
+                ->setType(NumberType::class)
+                ->setOptions([
+                    'label' => 'Start of Period Vacation Hours',
+                    'attr' => ['readonly' => true],
+                    'data' => $user->getPreferenceValue('start-of-period-vacation-hours')
+                    ])
         );
 
         $event->addPreference(
             (new UserPreference('extra-vacation-days', 0))
-                ->setEnabled(!$isAdmin)
+                ->setEnabled($isAdmin)
+                ->setSection('Vacation Hours')
                 ->setType(IntegerType::class)
-                ->setOptions(['label' => 'Extra Vacation Days' . ($isAdmin ? '' : ' (Read-Only)'), 'attr' => ['readonly' => !$isAdmin]]) // Make readonly if not admin
-	);
+                ->setOptions([
+                    'label' => 'Extra Vacation Days'
+                    ])
+	    );
+
+        // The placeholder only reads the value
+        $event->addPreference(
+            (new UserPreference('extra-vacation-days-placeholder', 0))
+                ->setEnabled(!$isAdmin)
+                ->setSection('Vacation Hours')
+                ->setType(IntegerType::class)
+                ->setOptions([
+                    'label' => 'Extra Vacation Days (Read-Only)',
+                    'attr' => ['readonly' => true],
+                    'data' => $user->getPreferenceValue('extra-vacation-days')
+                    ])
+        );
 
 	$event->addPreference(
 		(new UserPreference('vacation-hours-placeholder-v2', -9))
