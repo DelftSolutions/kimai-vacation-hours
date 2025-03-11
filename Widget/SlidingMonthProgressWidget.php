@@ -82,7 +82,7 @@ final class SlidingMonthProgressWidget extends AbstractWidget
 
 	public function getTitle(): string
 	{
-		return '4 week hours left';
+		return 'Last 4 weeks hours left';
 	}
 	public function getOrder(): int
 	{
